@@ -24,6 +24,14 @@
             </span>
         @else
             {{ $column->text }}
+            {{--            @if($column->centered)--}}
+            {{--            IS CENTERED!.  But, how to extend so that it honors 'centered'  seems like a good thing.--}}
+            {{--                I spent a bit trying to track down wehre, like, 'sortable'. Found in vendor/rappasoft/laravel-livewire-tables/src/Views/Column.php --}}
+            {{--                 For, now, we'll handle in in our Theme class.
+                                see:  --}}
+            {{--            @else--}}
+            {{--                nothing--}}
+            {{--            @endif--}}
         @endif
     </th>
 @endforeach

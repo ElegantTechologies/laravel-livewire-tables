@@ -100,6 +100,7 @@ abstract class TableComponent extends Component
      */
     public function render(): View
     {
+        #dd([__FILE__,__LINE__,$this->columns(), $this->models()->get()]);
         return view($this->view(), [
             'columns' => $this->columns(),
             'models' => $this->paginationEnabled ? $this->models()->paginate($this->perPage) : $this->models()->get(),
@@ -141,9 +142,13 @@ abstract class TableComponent extends Component
         }
 
         if (($column = $this->getColumnByAttribute($this->sortField)) !== null && is_callable($column->sortCallback)) {
-            return app()->call($column->sortCallback, ['builder' => $builder, 'direction' => $this->sortDirection]);
+            $r = app()->call($column->sortCallback, ['builder' => $builder, 'direction' => $this->sortDirection]);
+
+            return $r;
         }
 
-        return $builder->orderBy($sortField, $this->sortDirection);
+        $r =  $builder->orderBy($sortField, $this->sortDirection);
+
+        return $r;
     }
 }

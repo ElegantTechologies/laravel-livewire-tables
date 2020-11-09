@@ -1,11 +1,37 @@
+
 @if ($paginationEnabled || $searchEnabled)
-    <div class="flex flex-col">
-        @if ($paginationEnabled && $perPageEnabled)
-            <div class="px-2 py-2">
+    <section class="p-2 bg-{{config('tallandsassy_themehints.baseSectionColor')}}-100 rounded mb-2  ">
+        {{--        ^ This is, perhaps, the start of a standard search box, like we had in the People mockup--}}
+            {{--        <div class="container mx-auto py-2  align-justify">--}}
+            {{--            <nav class="Seasons flex mb-2">--}}
+            {{--                <div class="mr-2 pt-2 font-large font-bold w-16">Search</div>--}}
+            {{--                <input class="ml-1 w-full h-12 px-3 rounded  focus:outline-none focus:shadow-outline text-xl  shadow-sm"--}}
+            {{--                       type="search" placeholder="Search...">--}}
+            {{--            </nav>--}}
+
+        <div class="row  pt-2">
+
+
+            @if ($searchEnabled)
+                {{--            I think this is reloaded on search 7/23/20, and thus loosing focus.  We don't want that.--}}
+                <nav class=" flex mb-2">
+                    <div class="mr-2 pt-2 font-large font-bold w-16">Search</div>
+                    <input
+                        @if (is_numeric($searchDebounce)) wire:model.debounce.{{ $searchDebounce }}ms="search" @endif
+                        @if ($disableSearchOnLoading) wire:loading.attr="disabled" @endif
+                        class="ml-1 w-full h-12 px-3 rounded  focus:outline-none focus:shadow-outline text-xl  shadow-sm"
+                        type="text"
+                        placeholder="{{ $searchLabel }}">
+                </nav>
+
+            @endif
+
+            {{-- Choose # of resutls - we put it at the bottom. See 'pagination'       --}}
+            @if (0 && $paginationEnabled && $perPageEnabled)
+                <div class="col form-inline"> WIP - Should be at bottom
                 {{ $perPageLabel }}: &nbsp;
 
-                <select wire:model="perPage"
-                        class="relative form-select transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                    <select wire:model="perPage" class="form-control">
                     @if (is_array($perPageOptions))
                         @foreach ($perPageOptions as $option)
                             <option>{{ $option }}</option>
@@ -18,36 +44,6 @@
                 </select>
             </div>
         @endif
-
-        <div class="flex justify-between">
-            <div>
-                @if ($searchEnabled)
-
-                    {{--                <div class="w-full mr-20 p-10">--}}
-                    <div class="flex-col px-2 py-2 w-64">
-                        <input
-                                @if (is_numeric($searchDebounce)) wire:model.debounce.{{ $searchDebounce }}ms="search"
-                                @endif
-                                @if ($disableSearchOnLoading) wire:loading.attr="disabled" @endif
-                                class="form-input block w-full rounded-lg pl-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-                                type="text"
-                                placeholder="{{ $searchLabel }}"
-                        />
-                    </div>
-                    {{--                </div>--}}
-
-                @endif
             </div>
-            <div>
-                @if($createEnabled)
-                    <div class="flex-col py-2 px-2">
-                        <a href="{{$createRoute}}"
-                           class="relative inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700">
-                            {{$createLabel}}
-                        </a>
-                    </div>
-                @endif
-            </div>
-        </div>
-    </div>
+    </section>
 @endif
